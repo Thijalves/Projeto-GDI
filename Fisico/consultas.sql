@@ -8,7 +8,7 @@ where exists (select p.cpf
     from pokemon p 
     where p.id in (select e.id 
 			from especie e 
-where e.tipo ='FOGO') and t.cpf = p.cpf) 
+where e.tipo ='FOGO') and t.cpf = p.cpf)
  
 minus 
  
