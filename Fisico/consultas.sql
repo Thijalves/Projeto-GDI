@@ -46,3 +46,37 @@ SELECT DISTINCT P.NOME
 WHERE
     T.DATA >= '09-APR-2023';
 
+-- O cpf das enfermeiras que trataram mais de três vezes pokémons de um treinador de ginásio
+
+select distinct tr.cpf_enfermeira
+from trata tr
+where exists (
+	select *
+	from treinador t
+	where t.cpf = tr.cpf_pokemon and exists (
+			select *
+			from ginasio g
+			where t.cpf = g.cpf_lider
+		)
+		and (
+			select count(*)
+			from trata tr_in
+			where t.cpf = tr_in.cpf_pokemon and tr.cpf_enfermeira = tr_in.cpf_enfermeira
+		) > 3
+);
+
+-- Selecionando o pokemon com maior defesa e ataque
+
+select p.nome
+from pokemon p
+where ((p.atk, p.def) = (select max(p2.atk), max(p2.def)
+												 from pokemon p2
+												));
+										
+-- Exibir todas as enfermeiras que trataram pokémons a partir do dia 9
+
+select distinct p.nome
+	from trata t
+	inner join personagem p on t.cpf_enfermeira = p.cpf
+where
+	t.data >= '09-APR-2023';
