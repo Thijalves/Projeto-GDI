@@ -28,7 +28,7 @@ where (7, 3) in (select t2.cpf_pokemon, t2.descritor
 from trata t2);
 
 
-#informa a quantidade máxima de pokemons capturados por um único treinador
+-- informa a quantidade máxima de pokemons capturados por um único treinador
 
 SELECT MAX(QTD)
 FROM (
@@ -37,3 +37,12 @@ FROM (
     WHERE P.CPF IS NOT NULL
     GROUP BY P.CPF
 )
+
+-- enfermeiras que atenderam pokemons no dia 09/apr/23
+
+SELECT DISTINCT P.NOME
+    FROM TRATA T
+	INNER JOIN PERSONAGEM P ON T.CPF_ENFERMEIRA = P.CPF
+WHERE
+    T.DATA >= '09-APR-2023';
+
