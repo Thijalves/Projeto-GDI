@@ -1,6 +1,4 @@
--- Group by/Having
 
--- -Semi junção
 -- -Subconsulta do tipo linha
 
 -- Operação de conjunto
@@ -26,11 +24,15 @@ where exists (select b.desafiante
 
 -- Subconsulta do tipo tabela
 -- Informações de todas as vezes que um pokemon foi tratado, quando ele foi tratado e em que centro ele foi tratado. 
- 
--- select t.data, t.zip_code 
--- from centro_pokemon cp inner join trata t on cp.zip_code = t.zip_code 
--- where (7, 3) in (select t2.cpf_pokemon, t2.descritor 
---                 from trata t2);
+
+-- seleciona o nome e o id das especies cujos donos tiveram o professor de CPF=4
+SELECT DISTINCT E.NOME, E.ID
+FROM ESPECIE E, POKEMON P
+WHERE P.ID=E.ID AND P.ID IN(
+    SELECT P.ID
+    FROM POKEMON P, TREINADOR T
+    WHERE T.CPF=P.CPF AND T.CPF_PROF=4
+)
 
 -- Subconsulta do tipo escalar
 -- informa a quantidade máxima de pokemons capturados por um único treinador
@@ -56,8 +58,47 @@ from PERSONAGEM P left join telefone T on P.CPF = T.CPF
 where NUMERO is null
 
 -- Anti-junção
--- Para cada Espécie de Pokemon Pok1, selecione o ID_Esp1 e do ID_Esp2, sendo ATK_Esp1 > ATK_Esp2
+-- Seleciona o cpf dos professores sem alunos
+SELECT P.CPF
+FROM PROFESSOR P
+WHERE CPF NOT IN (
+    SELECT T.CPF_PROF
+    FROM TREINADOR T
+)
 
--- select Esp1.id as ID_Esp1, Esp2.id as id_Esp2
--- from especie Esp1 inner join pokemon Esp2 on Esp1.atk > Esp2.atk
+-- Group by/Having
+-- QUANTIDADE DE POKEMONS QUE CADA TREINADOR TEM EM ORDEM DECRESCENTE
+SELECT A.CPF,A.NOME, COUNT(PO.DESCRITOR) AS QTD_DE_POKEMONS
+FROM (
+    SELECT *
+	FROM PERSONAGEM P	
+	WHERE P.CPF = ANY(
+    	SELECT T.CPF
+    	FROM TREINADOR T
+	)
+) A LEFT JOIN POKEMON PO
+ON PO.CPF = A.CPF
+GROUP BY (A.CPF,A.NOME)
+ORDER BY QTD_DE_POKEMONS DESC;
+
+-- Semi junção
+-- O cpf das enfermeiras que trataram mais de três vezes pokémons de um treinador de ginásio
+
+select distinct tr.cpf_enfermeira
+from trata tr
+where exists (
+	select *
+	from treinador t
+	where t.cpf = tr.cpf_pokemon and exists (
+			select *
+			from ginasio g
+			where t.cpf = g.cpf_lider)
+);
+
+-- Selecionando o pokemon com maior defesa e ataque
+
+select p.nome
+from pokemon p
+where (p.atk, p.def) = (select max(p2.atk), max(p2.def)
+                        from pokemon p2);
 
