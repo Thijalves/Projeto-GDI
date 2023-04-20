@@ -32,12 +32,12 @@ WHERE (CPF, ATK) IN (
 -- Subconsulta do tipo escalar ----------------------------------------------------------------------------------
 -- informa a quantidade máxima de pokemons capturados por um único treinador
 
-SELECT MAX(QTD)
-FROM (
-    SELECT COUNT(*) AS QTD
-    FROM POKEMON P
-    GROUP BY P.CPF);
-
+SELECT P.DESCRITOR, P.CPF
+FROM POKEMON P
+WHERE P.ATK > (
+    SELECT AVG(A.ATK)
+    FROM POKEMON A
+)
 -- Junção interna --------------------------------------------------------------------------------------------
 -- Mostra o nome e cpf das enfermeiras que atenderam pokemons a partir do dia 09/apr/23
 
@@ -74,7 +74,9 @@ FROM (
 ) A LEFT JOIN POKEMON PO
 ON PO.CPF = A.CPF
 GROUP BY (A.CPF,A.NOME)
-ORDER BY QTD_DE_POKEMONS DESC;
+HAVING COUNT(PO.DESCRITOR) > 2
+ORDER BY QTD_DE_POKEMONS DESC
+;
 
 -- Semi junção -----------------------------------------------------------------------------
 -- O cpf das enfermeiras que trataram mais de três vezes pokémons de um treinador de ginásio
