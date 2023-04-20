@@ -1,7 +1,4 @@
-
--- -Subconsulta do tipo linha
-
--- Operação de conjunto
+-- Operação de conjunto ------------------------------------------------------------------
 -- Seleciona treinador que tem pokemon do tipo fogo, mas não batalhou no ginasio de grama
 
 select t.cpf, p.nome 
@@ -22,19 +19,17 @@ where exists (select b.desafiante
                                                     from ginasio g  
                                                     where g.tipo = 'GRAMA')) 
 
--- Subconsulta do tipo tabela
--- Informações de todas as vezes que um pokemon foi tratado, quando ele foi tratado e em que centro ele foi tratado. 
-
--- seleciona o nome e o id das especies cujos donos tiveram o professor de CPF=4
-SELECT DISTINCT E.NOME, E.ID
-FROM ESPECIE E, POKEMON P
-WHERE P.ID=E.ID AND P.ID IN(
-    SELECT P.ID
-    FROM POKEMON P, TREINADOR T
-    WHERE T.CPF=P.CPF AND T.CPF_PROF=4
+-- Subconsulta do tipo tabela ------------------------------------------------------------------------------------
+-- RETORNE OS DE POKEMONS QUE POSSUEM ATAQUE IGUAL A MÉDIA DOS POKEMONS DE CADA TREINADOR
+SELECT A.CPF, A.ID, A.DESCRITOR
+FROM POKEMON A
+WHERE (CPF, ATK) IN (
+    SELECT CPF, AVG(ATK)
+    FROM POKEMON
+    GROUP BY CPF
 )
 
--- Subconsulta do tipo escalar
+-- Subconsulta do tipo escalar ----------------------------------------------------------------------------------
 -- informa a quantidade máxima de pokemons capturados por um único treinador
 
 SELECT MAX(QTD)
@@ -43,21 +38,21 @@ FROM (
     FROM POKEMON P
     GROUP BY P.CPF);
 
--- Junção interna
+-- Junção interna --------------------------------------------------------------------------------------------
 -- Mostra o nome e cpf das enfermeiras que atenderam pokemons a partir do dia 09/apr/23
 
 SELECT DISTINCT P.CPF, P.NOME
 FROM TRATA T INNER JOIN PERSONAGEM P ON (T.CPF_ENFERMEIRA = P.CPF)
 WHERE T.DATA >= '09-APR-2023';
 
--- Junção externa
+-- Junção externa -------------------------------------------------------------------------------------------
 -- coloque o CPF e o  NOME dos personagens que não possuem telefone
 
 select P.CPF, P.NOME
 from PERSONAGEM P left join telefone T on P.CPF = T.CPF
 where NUMERO is null
 
--- Anti-junção
+-- Anti-junção ---------------------------------------------------------------------------------------------
 -- Seleciona o cpf dos professores sem alunos
 SELECT P.CPF
 FROM PROFESSOR P
@@ -66,7 +61,7 @@ WHERE CPF NOT IN (
     FROM TREINADOR T
 )
 
--- Group by/Having
+-- Group by/Having ----------------------------------------------------------------------------------------
 -- QUANTIDADE DE POKEMONS QUE CADA TREINADOR TEM EM ORDEM DECRESCENTE
 SELECT A.CPF,A.NOME, COUNT(PO.DESCRITOR) AS QTD_DE_POKEMONS
 FROM (
@@ -81,7 +76,7 @@ ON PO.CPF = A.CPF
 GROUP BY (A.CPF,A.NOME)
 ORDER BY QTD_DE_POKEMONS DESC;
 
--- Semi junção
+-- Semi junção -----------------------------------------------------------------------------
 -- O cpf das enfermeiras que trataram mais de três vezes pokémons de um treinador de ginásio
 
 select distinct tr.cpf_enfermeira
@@ -95,6 +90,7 @@ where exists (
 			where t.cpf = g.cpf_lider)
 );
 
+-- Subconsulta do tipo linha ----------------------------------------------------------------
 -- Selecionando o pokemon com maior defesa e ataque
 
 select p.nome
