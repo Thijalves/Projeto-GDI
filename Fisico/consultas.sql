@@ -20,7 +20,7 @@ WHERE EXISTS (SELECT B.DESAFIANTE
                                                     WHERE G.TIPO = 'GRAMA'));
 
 -- Subconsulta do tipo tabela ------------------------------------------------------------------------------------
--- RETORNE OS DE POKEMONS QUE POSSUEM ATAQUE IGUAL A MÉDIA DOS POKEMONS DE CADA TREINADOR
+-- RETORNA OS POKEMONS QUE POSSUEM ATAQUE IGUAL A MÉDIA DO ATAQUES DOS POKEMONS DE TODOS TREINADOR
 SELECT A.CPF, A.ID, A.DESCRITOR
 FROM POKEMON A
 WHERE (CPF, ATK) IN (
@@ -30,7 +30,7 @@ WHERE (CPF, ATK) IN (
 );
 
 -- Subconsulta do tipo escalar ----------------------------------------------------------------------------------
--- informa a quantidade máxima de pokemons capturados por um único treinador
+-- POKEMONS QUE POSSUEM ATAQUE MAIOR QUE A MEDIA DO ATAQUE DOS POKEMONS 
 
 SELECT P.DESCRITOR, P.CPF
 FROM POKEMON P
@@ -62,7 +62,7 @@ WHERE CPF NOT IN (
 );
 
 -- Group by/Having ----------------------------------------------------------------------------------------
--- QUANTIDADE DE POKEMONS QUE CADA TREINADOR TEM EM ORDEM DECRESCENTE
+-- TREINADORES QUE POSSUEM UMA QUANTIDADE DE POKEMONS MAIOR QUE 2
 SELECT A.CPF,A.NOME, COUNT(PO.DESCRITOR) AS QTD_DE_POKEMONS
 FROM (
     SELECT *
@@ -75,11 +75,10 @@ FROM (
 ON PO.CPF = A.CPF
 GROUP BY (A.CPF,A.NOME)
 HAVING COUNT(PO.DESCRITOR) > 2
-ORDER BY QTD_DE_POKEMONS DESC
-;
+ORDER BY QTD_DE_POKEMONS DESC;
 
 -- Semi junção -----------------------------------------------------------------------------
--- O cpf das enfermeiras que trataram mais de três vezes pokémons de um treinador de ginásio
+-- O cpf das enfermeiras que trataram pokémons de um treinador de ginásio
 
 select distinct tr.cpf_enfermeira
 from trata tr
