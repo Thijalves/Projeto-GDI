@@ -1,23 +1,23 @@
 -- Operação de conjunto ------------------------------------------------------------------
 -- Seleciona treinador que tem pokemon do tipo fogo, mas não batalhou no ginasio de grama
 
-select t.cpf, p.nome 
-from treinador t inner join personagem p on t.cpf = p.cpf 
-where exists (select p.cpf 
-                from pokemon p 
-                where p.id in (select e.id 
-                                from especie e 
-                                where e.tipo ='FOGO') and t.cpf = p.cpf);
+SELECT T.CPF, P.NOME 
+FROM TREINADOR T INNER JOIN PERSONAGEM P ON T.CPF = P.CPF 
+WHERE EXISTS (SELECT P.CPF 
+                FROM POKEMON P 
+                WHERE P.ID IN (SELECT E.ID 
+                                FROM ESPECIE E 
+                                WHERE E.TIPO ='FOGO') AND T.CPF = P.CPF);
  
-minus 
+MINUS 
  
-select t.cpf, p.nome 
-from treinador t inner join personagem p on t.cpf = p.cpf 
-where exists (select b.desafiante  
-            from batalha b 
-            where t.cpf = b.desafiante and b.id =(select g.id 
-                                                    from ginasio g  
-                                                    where g.tipo = 'GRAMA'));
+SELECT T.CPF, P.NOME 
+FROM TREINADOR T INNER JOIN PERSONAGEM P ON T.CPF = P.CPF 
+WHERE EXISTS (SELECT B.DESAFIANTE  
+            FROM BATALHA B 
+            WHERE T.CPF = B.DESAFIANTE AND B.ID =(SELECT G.ID 
+                                                    FROM GINASIO G  
+                                                    WHERE G.TIPO = 'GRAMA'));
 
 -- Subconsulta do tipo tabela ------------------------------------------------------------------------------------
 -- RETORNE OS DE POKEMONS QUE POSSUEM ATAQUE IGUAL A MÉDIA DOS POKEMONS DE CADA TREINADOR
@@ -97,4 +97,3 @@ SELECT P.ID
 FROM POKEMON P
 WHERE (P.ATK, P.DEF) = (SELECT MAX(P2.ATK), MAX(P2.DEF)
                         FROM POKEMON P2);
-
