@@ -1,5 +1,4 @@
---######################consultas#########################################
-
+-- 
 --#treinador que tem pokemon do tipo fogo, mas não desafio o ginasio de grama
 
 select t.cpf, p.nome 
