@@ -7,7 +7,7 @@ where exists (select p.cpf
                 from pokemon p 
                 where p.id in (select e.id 
                                 from especie e 
-                                where e.tipo ='FOGO') and t.cpf = p.cpf)
+                                where e.tipo ='FOGO') and t.cpf = p.cpf);
  
 minus 
  
@@ -17,7 +17,7 @@ where exists (select b.desafiante
             from batalha b 
             where t.cpf = b.desafiante and b.id =(select g.id 
                                                     from ginasio g  
-                                                    where g.tipo = 'GRAMA')) 
+                                                    where g.tipo = 'GRAMA'));
 
 -- Subconsulta do tipo tabela ------------------------------------------------------------------------------------
 -- RETORNE OS DE POKEMONS QUE POSSUEM ATAQUE IGUAL A MÉDIA DOS POKEMONS DE CADA TREINADOR
@@ -27,7 +27,7 @@ WHERE (CPF, ATK) IN (
     SELECT CPF, AVG(ATK)
     FROM POKEMON
     GROUP BY CPF
-)
+);
 
 -- Subconsulta do tipo escalar ----------------------------------------------------------------------------------
 -- informa a quantidade máxima de pokemons capturados por um único treinador
@@ -50,7 +50,7 @@ WHERE T.DATA >= '09-APR-2023';
 
 select P.CPF, P.NOME
 from PERSONAGEM P left join telefone T on P.CPF = T.CPF
-where NUMERO is null
+where NUMERO is null;
 
 -- Anti-junção ---------------------------------------------------------------------------------------------
 -- Seleciona o cpf dos professores sem alunos
@@ -59,7 +59,7 @@ FROM PROFESSOR P
 WHERE CPF NOT IN (
     SELECT T.CPF_PROF
     FROM TREINADOR T
-)
+);
 
 -- Group by/Having ----------------------------------------------------------------------------------------
 -- QUANTIDADE DE POKEMONS QUE CADA TREINADOR TEM EM ORDEM DECRESCENTE
