@@ -48,9 +48,9 @@ WHERE T.DATA >= '09-APR-2023';
 -- Junção externa -------------------------------------------------------------------------------------------
 -- coloque o CPF e o  NOME dos personagens que não possuem telefone
 
-select P.CPF, P.NOME
-from PERSONAGEM P left join telefone T on P.CPF = T.CPF
-where NUMERO is null;
+SELECT P.CPF, P.NOME
+FROM PERSONAGEM P LEFT JOIN telefone T ON P.CPF = T.CPF
+WHERE NUMERO IS NULL;
 
 -- Anti-junção ---------------------------------------------------------------------------------------------
 -- Seleciona o cpf dos professores sem alunos
@@ -93,8 +93,8 @@ where exists (
 -- Subconsulta do tipo linha ----------------------------------------------------------------
 -- Selecionando o pokemon com maior defesa e ataque
 
-select p.nome
-from pokemon p
-where (p.atk, p.def) = (select max(p2.atk), max(p2.def)
-                        from pokemon p2);
+SELECT P.ID
+FROM POKEMON P
+WHERE (P.ATK, P.DEF) = (SELECT MAX(P2.ATK), MAX(P2.DEF)
+                        FROM POKEMON P2);
 

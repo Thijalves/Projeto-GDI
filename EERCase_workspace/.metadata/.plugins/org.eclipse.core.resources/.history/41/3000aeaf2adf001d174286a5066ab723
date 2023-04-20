@@ -753,5 +753,11 @@
       <styles xmi:type="notation:FontStyle" xmi:id="_X73WEt8UEe2Yx8Vdk9LgwQ" fontName="Segoe UI"/>
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_X73WE98UEe2Yx8Vdk9LgwQ" points="[4, 20, 0, -50]$[0, 55, -4, -15]"/>
     </edges>
+    <edges xmi:type="notation:Edge" xmi:id="_aSG0sd8UEe2Yx8Vdk9LgwQ" type="4007" element="_aSG0sN8UEe2Yx8Vdk9LgwQ" source="_X72H8N8UEe2Yx8Vdk9LgwQ" target="_OAvDcN2EEe2xe9D4HeHLHg">
+      <styles xmi:type="notation:RoutingStyle" xmi:id="_aSG0st8UEe2Yx8Vdk9LgwQ"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_aSG0s98UEe2Yx8Vdk9LgwQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_aSG0tN8UEe2Yx8Vdk9LgwQ" points="[-12, -11, 72, 55]$[-43, -60, 41, 6]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_aSHbwN8UEe2Yx8Vdk9LgwQ" id="(0.18888888888888888,0.64)"/>
+    </edges>
   </notation:Diagram>
 </xmi:XMI>
